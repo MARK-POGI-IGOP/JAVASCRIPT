@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Feature Page</title>
+    <style>
+      body {
+      margin: 0;
+      padding: 40px;
+      font-family: "Poppins", Arial, sans-serif;
+      background: linear-gradient(135deg, #a8edea, #fed6e3);
+    }
+
+    h1, h2 {
+      font-weight: 600;
+      color: #333;
+    }
+
+    section {
+      background-color: #ffffff;
+      padding: 25px 30px;
+      margin-bottom: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    input[type="text"], input[type="number"] {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      border-color: #66b2ff;
+      box-shadow: 0 0 5px rgba(102,178,255,0.4);
+    }
+
+    button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.1s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      transform: scale(1);
+    }
+
+    #counterValue {
+      display: inline-block;
+      font-size: 20px;
+      font-weight: bold;
+      width: 50px;
+      text-align: center;
+    }
+
+    #todoList {
+      list-style: none;
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    #todoList li {
+      background-color: #f9f9f9;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      border-radius: 5px;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    #todoList li:hover {
+      background-color: #d1f5d3;
+      transform: scale(1.02);
+    }
+
+    #todoList li:active {
+      background-color: #f28b82;
+      color: white;
+    }
+
+    p {
+      margin-top: 10px;
+    }
+
+   
+    .page-title {
+      text-align: center;
+      font-size: 32px;
+      color: #222;
+      margin-bottom: 30px;
+    }
+
+    .image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 250px;
+}
+
+.image-container img {
+  width: clamp(200px, 30vw, 300px);
+  height: clamp(200px, 30vw, 300px);
+  object-fit: cover;
+  border-radius: 50%;
+  border: 6px solid #00BCD4;
+  box-shadow: 0 8px 25px rgba(0, 188, 212, 0.2);
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+
+  </style>
+</head>
+<body>
+
+    
+    <section>
+        <h2>Part 1 — Greeter</h2>
+        Your name: <input type="text" id="nameInput" placeholder="Type your name">
+        <button onclick="greet()">Greet</button>
+        <p id="greetOutput"></p>
+    </section>
+
+    <section>
+        <h2>Part 2 — Counter</h2>
+        <button onclick="decrement()">-</button>
+        <span id="counterValue">0</span>
+        <button onclick="increment()">+</button>
+        <button onclick="resetCounter()">Reset</button>
+    </section>
+
+   
+    <section>
+        <h2>Part 3 — BMI Calculator</h2>
+        Weight (kg): <input type="number" id="weight" placeholder="e.g., 65">
+        Height (cm): <input type="number" id="height" placeholder="e.g., 170">
+        <button onclick="computeBMI()">Compute BMI</button>
+        <p id="bmiOutput"></p>
+    </section>
+
+ 
+    <section>
+        <h2>Part 4 — Tiny Todo</h2>
+        <input type="text" id="todoInput" placeholder="Add item and press Add">
+        <button onclick="addTodo()">Add</button>
+        <ul id="todoList"></ul>
+        <p>Tip: Click an item to remove it.</p>
+    </section>
+
+    <section class="main" id="home">
+    <div class="image-container">
+     
+      <img src="ME.jpg" alt="Photo ko">
+    </div>
+    </section>
+
+    <script>
+    
+        function greet() {
+            const name = document.getElementById('nameInput').value;
+           document.getElementById('greetOutput').textContent = name ? `Hello, ${name}!` : '';
+
+        }
+
+      
+        let count = 0;
+        function updateCounter() {
+            document.getElementById('counterValue').textContent = count;
+        }
+        function increment() { count++; updateCounter(); }
+        function decrement() { count--; updateCounter(); }
+        function resetCounter() { count = 0; updateCounter(); }
+
+        function computeBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const heightCm = parseFloat(document.getElementById('height').value);
+            if (!weight || !heightCm) {
+                document.getElementById('bmiOutput').textContent = "Please enter valid numbers.";
+                return;
+            }
+            const heightM = heightCm / 100;
+            const bmi = (weight / (heightM * heightM)).toFixed(2);
+            document.getElementById('bmiOutput').textContent = 'Your BMI is ${bmi}';
+        }
+
+       
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const value = input.value.trim();
+            if (!value) return;
+            const li = document.createElement('li');
+            li.textContent = value;
+            li.onclick = function() { li.remove(); }
+            document.getElementById('todoList').appendChild(li);
+            input.value = '';
+        }
+    </script>
+
+</body>
+</html>
